@@ -1,0 +1,166 @@
+//Implement stack operations using arrays and linked lists.//
+
+
+#include <stdio.h>
+#define MAX 5
+
+int stack[MAX];
+int top = -1;
+
+// Push
+void push(int value) {
+    if (top == MAX - 1)
+        printf("Stack Overflow\n");
+    else {
+        top++;
+        stack[top] = value;
+        printf("Pushed %d\n", value);
+    }
+}
+
+// Pop
+void pop() {
+    if (top == -1)
+        printf("Stack Underflow\n");
+    else {
+        printf("Popped %d\n", stack[top]);
+        top--;
+    }
+}
+
+// Display
+void display() {
+    if (top == -1)
+        printf("Stack is empty\n");
+    else {
+        printf("Stack elements:\n");
+        for (int i = top; i >= 0; i--)
+            printf("%d\n", stack[i]);
+    }
+}
+
+// Main
+int main() {
+    push(10);
+    push(20);
+    push(30);
+    display();
+    pop();
+    display();
+    return 0;
+}
+
+
+#include <stdlib.h>
+
+// Define node structure
+struct Node {
+    int data;
+    struct Node* next;
+};
+struct Node* top_linked = NULL;  // Top of stack
+// Push operation
+void push(int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+
+    if (newNode == NULL) {
+        printf("Stack Overflow (Memory not available)\n");
+        return;
+    }
+
+    newNode->data = value;
+    newNode->next = top_linked;
+    top_linked = newNode;
+
+    printf("%d pushed to stack\n", value);
+}
+// Pop operation
+void pop() {
+    if (top_linked == NULL) {
+        printf("Stack Underflow (Empty stack)\n");
+        return;
+    }
+    struct Node* temp = top_linked;
+    printf("%d popped from stack\n", top_linked->data);
+
+    top_linked = top_linked->next;
+    free(temp);
+}
+
+// Peek operation
+void peek() {
+    if (top_linked == NULL) {
+        printf("Stack is empty\n");
+    } else {
+        printf("Top element is: %d\n", top_linked->data);
+    }
+}
+
+// Display stack
+void display() {
+    if (top_linked == NULL) {
+        printf("Stack is empty\n");
+        return;
+    }
+
+    struct Node* temp = top_linked;
+    printf("Stack elements: ");
+
+    while (temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+// Main function
+int main() {
+    int choice, value;
+
+    while (1) {
+        printf("\n--- Stack Menu ---\n");
+        printf("1. Push\n2. Pop\n3. Peek\n4. Display\n5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter value: ");
+                scanf("%d", &value);
+                push(value);
+                break;
+
+            case 2:
+                pop();
+                break;
+
+            case 3:
+                peek();
+                break;
+
+            case 4:
+                display();
+                break;
+
+            case 5:
+                exit(0);
+
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+
+    return 0;
+}
+
+OUTPUT-
+
+--- Stack Menu ---
+1. Push
+2. Pop
+3. Peek
+4. Display
+5. Exit
+Enter your choice: 1
+Enter value: 10
+10 pushed to stack
